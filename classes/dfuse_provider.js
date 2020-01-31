@@ -7,6 +7,8 @@ const {createDfuseClient} = require("@dfuse/client");
 
 const fb = require('./firebaseadmin.js');
 
+const eosapi = require("./eosjswrapper.js");
+
 
 class dfuse_provider{
 
@@ -64,8 +66,11 @@ class dfuse_provider{
               let event_type = matchingActions[i].json.event;
               let message = matchingActions[i].json.message;
               let creator_action = matchingActions[i].creatorAction.json;
-              console.log('creator_action', creator_action);
+              // console.log('creator_action', creator_action);
               //push message
+              let groupmeta = await eosapi.getGroupMeta(group).catch(e => {return false;});
+              if(!groupmeta)return;
+
               let template = {
                 topic: `${group}`,
                 data: {type: event_type},
@@ -77,12 +82,12 @@ class dfuse_provider{
                       title: `New proposal in group ${group}`,
                       body: `${message}`,
                       requireInteraction: "true",//display close btn in system notification
-                      badge: "",
-                      icon:""
+                      badge: groupmeta.ui.logo,
+                      icon: groupmeta.ui.logo
                     },
                     
                     fcm_options: {
-                      link: `https://eosgroups.netlify.com/manage/${group}/proposals`
+                      link: `https://daclify.com/manage/${group}/proposals`
                     }
                   } 
               };
