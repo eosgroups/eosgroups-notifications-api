@@ -27,7 +27,7 @@ async function setupProxy(port,target,customThrottleData,customLimitData) {
   app.use('/*',proxy({ target, changeOrigin: true }))
   const httpsServer = https.createServer(credentials, app)
   httpsServer.listen(port, () => {
-    console.log('HTTPS Server running on port 443')
+    console.log('HTTPS Server running on port',port,'with target',target)
   })
 }
 
