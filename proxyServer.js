@@ -5,8 +5,7 @@ var https = require('https')
 const path = require('path')
 const ms = require('human-interval')
 const cors = require('cors')
-const os = require('os')
-const keyPath = path.join(os.sep,'etc','letsencrypt','live','api.daclify.com')
+const keyPath = path.join(path.sep,'etc','letsencrypt','live','api.daclify.com')
 
 const credentials = {
 	key: fs.readFileSync(path.join(keyPath,'privkey.pem'), 'utf8'),
